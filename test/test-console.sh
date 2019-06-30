@@ -1,0 +1,2 @@
+LOGJ=console node -r ./index.js test/index.console.js > test/output.console.txt 2>&1
+cmp <(jq -c '. | del(.timestamp)' test/output.console.expected.txt) <(jq -c '. | del(.timestamp)' test/output.console.txt)

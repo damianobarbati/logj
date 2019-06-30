@@ -1,0 +1,18 @@
+{
+    "name": "logj",
+    "version": "1.0.0",
+    "author": "Damiano Barbati <damiano.barbati@gmail.com> (http://github.com/damianobarbati)",
+    "repository": "https://github.com/damianobarbati/logj",
+    "license": "MIT",
+    "main": "index.js",
+    "scripts": {
+        "test:clean": "rm -f test/output.console.txt test/output.file.txt",
+        "test": "yarn test:clean; yarn test:console && yarn test:file || echo 'tests failed'; yarn test:clean",
+        "test:console": "bash test/test-console.sh",
+        "test:file": "bash test/test-file.sh"
+    },
+    "devDependencies": {
+        "babel-eslint": "^10.0.2",
+        "eslint": "^6.0.1"
+    }
+}

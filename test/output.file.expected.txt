@@ -1,0 +1,8 @@
+{"0":"hello","std":"output","timestamp":"2019-06-30T10:48:53.540Z"}
+{"0":"hello","1":"world","std":"output","timestamp":"2019-06-30T10:48:53.542Z"}
+{"0":["hello","world"],"std":"output","timestamp":"2019-06-30T10:48:53.542Z"}
+{"0":{"hello":"world"},"std":"output","timestamp":"2019-06-30T10:48:53.543Z"}
+{"0":"hello","std":"error","timestamp":"2019-06-30T10:48:53.543Z"}
+{"0":"hello","1":"world","std":"error","timestamp":"2019-06-30T10:48:53.543Z"}
+{"0":["hello","world"],"std":"error","timestamp":"2019-06-30T10:48:53.543Z"}
+{"0":{"hello":"world"},"std":"error","timestamp":"2019-06-30T10:48:53.543Z"}

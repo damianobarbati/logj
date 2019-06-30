@@ -1,0 +1,2 @@
+LOGJ=test/output.file.txt node -r ./index.js test/index.file.js > /dev/null 2>&1
+cmp <(jq -c '. | del(.timestamp)' test/output.file.expected.txt) <(jq -c '. | del(.timestamp)' test/output.file.txt) || exit 1
