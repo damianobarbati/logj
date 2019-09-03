@@ -8,25 +8,25 @@ This makes easier to search into logs files in a structured way using `jq`.
 Usage is ENV driven:
 
 ### Disabled mode
-If env `LOG_FILE` is empty then `console` methods are not overloaded.
+If env `LOGJ` is empty then `console` methods are not overloaded.
 ```
-LOG_FILE='' node -r 'logj' index.js
+LOGJ='' node -r 'logj' index.js
 ```
 - `console.log` and `console.error` default behaviour is preserved.
 - no file is written
 
 ### Console mode
-If env `LOG_FILE=console` then `console` methods print JSON to stdout and stderr (docker container typical usage).
+If env `LOGJ=console` then `console` methods print JSON to stdout and stderr (docker container typical usage).
 ```
-LOG_FILE=console LOG_PRETTY=1 node -r 'logj' index.js
+LOGJ=console LOGJ_PRETTY=1 node -r 'logj' index.js
 ```
 - `console.log` and `console.error` default behaviour is changed: statements are print as JSON
 - no file is written
 
 ### File mode
-If env `LOG_FILE=<filename>` then `console` methods both print to stdout and stderr AND into given file.
+If env `LOGJ=<filename>` then `console` methods both print to stdout and stderr AND into given file.
 ```
-LOG_FILE=./std.log LOG_PRETTY=1 node -r 'logj' index.js
+LOGJ=./std.log LOGJ_PRETTY=1 node -r 'logj' index.js
 ```
 - `console.log` and `console.error` methods default behaviour is preserved
 - file is written with `console.log` and `console.error` statements as JSON lines
