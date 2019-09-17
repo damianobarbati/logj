@@ -12,7 +12,7 @@
         "test:file": "bash test/test-file.sh"
     },
     "devDependencies": {
-        "babel-eslint": "^10.0.2",
-        "eslint": "^6.0.1"
+        "babel-eslint": "^10.0.3",
+        "eslint": "^6.4.0"
     }
 }
