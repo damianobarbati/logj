@@ -1,3 +1,4 @@
+const { version } = require('./package.json');
 const { createWriteStream } = require('fs');
 
 const { LOGJ, LOGJ_PRETTY } = process.env;
@@ -52,25 +53,20 @@ if (LOGJ) {
 }
 
 const getLogLine = (std, args, custom = {}) => {
-    try {
-        const logLine = {
-            std,
-            timestamp: new Date().toISOString(),
-            ...custom,
-            ...args,
-        };
+    const logLine = {
+        std,
+        timestamp: new Date().toISOString(),
+        version,
+        ...custom,
+        ...args,
+    };
 
+    try {
         const logLineJSON = JSON.stringify(logLine, console.jsonReplacer, LOGJ_PRETTY);
         return logLineJSON;
     }
     catch (error) {
-        const logLine = {
-            std,
-            timestamp: new Date().toISOString(),
-            ...custom,
-            error: error.message,
-        };
-
+        Object.assign(logLine, { error: error.message });
         const logLineJSON = JSON.stringify(logLine, console.jsonReplacer, LOGJ_PRETTY);
         return logLineJSON;
     }
