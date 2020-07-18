@@ -1,7 +1,6 @@
-const { version } = require('./package.json');
 const { createWriteStream } = require('fs');
 
-const { LOGJ, LOGJ_PRETTY } = process.env;
+const { LOGJ, LOGJ_MORE = false, LOGJ_PRETTY, npm_package_name: name, npm_package_version: version } = process.env;
 
 if (LOGJ) {
     const stream = (LOGJ !== 'console') ? createWriteStream(LOGJ, { flags: 'a' }) : null;
@@ -53,13 +52,20 @@ if (LOGJ) {
 }
 
 const getLogLine = (std, args, custom = {}) => {
-    const logLine = {
+    const out = args.length === 1 ? args[0] : args;
+
+    const logLine = LOGJ_MORE ? {
         std,
-        timestamp: new Date().toISOString(),
+        time: new Date().toISOString(),
+        timestamp: new Date().getTime(),
+        name,
         version,
         ...custom,
-        ...args,
-    };
+        out,
+    } : custom ? {
+        ...custom,
+        out,
+    } : out;
 
     try {
         const logLineJSON = JSON.stringify(logLine, console.jsonReplacer, LOGJ_PRETTY);
@@ -71,3 +77,4 @@ const getLogLine = (std, args, custom = {}) => {
         return logLineJSON;
     }
 };
+
