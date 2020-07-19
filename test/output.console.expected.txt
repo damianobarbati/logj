@@ -1,8 +1,0 @@
-{"0":"hello","std":"output","timestamp":"2019-06-30T10:02:22.995Z"}
-{"0":"hello","1":"world","std":"output","timestamp":"2019-06-30T10:02:23.001Z"}
-{"0":["hello","world"],"std":"output","timestamp":"2019-06-30T10:02:23.001Z"}
-{"0":{"hello":"world"},"std":"output","timestamp":"2019-06-30T10:02:23.001Z"}
-{"0":"hello","std":"error","timestamp":"2019-06-30T10:02:23.001Z"}
-{"0":"hello","1":"world","std":"error","timestamp":"2019-06-30T10:02:23.002Z"}
-{"0":["hello","world"],"std":"error","timestamp":"2019-06-30T10:02:23.002Z"}
-{"0":{"hello":"world"},"std":"error","timestamp":"2019-06-30T10:02:23.002Z"}
