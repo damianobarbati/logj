@@ -6,17 +6,10 @@
     "license": "MIT",
     "main": "index.js",
     "scripts": {
-        "test:clean": "rm -f test/output.console.txt test/output.file.txt",
-        "test": "yarn test:clean; yarn test:console && yarn test:file || echo 'tests failed'; yarn test:clean",
-        "test:console": "bash test/test-console.sh",
-        "test:file": "bash test/test-file.sh"
+        "test": "rm -f test/*actual.txt && bash test/test1.sh && bash test/test2.sh"
     },
     "devDependencies": {
         "babel-eslint": "^10.1.0",
         "eslint": "^7.5.0"
-    },
-    "resolutions": {
-        "lodash": "^4.17.19",
-        "minimist": "^1.2.3"
     }
 }

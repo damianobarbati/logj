@@ -1,80 +1,39 @@
-const { createWriteStream } = require('fs');
+const { LOGJ = '' } = process.env;
 
-const { LOGJ, LOGJ_MORE = false, LOGJ_PRETTY, npm_package_name: name, npm_package_version: version } = process.env;
+const META = LOGJ.includes('m');
+const PRETTY = LOGJ.includes('p');
 
-if (LOGJ) {
-    const stream = (LOGJ !== 'console') ? createWriteStream(LOGJ, { flags: 'a' }) : null;
-    const { log, error } = console;
+console.log = function () {
+    const logLine = getLog('output', arguments) + '\n';
+    process.stdout.write(logLine);
+};
 
-    console.log = function () {
-        const logLine = getLogLine('output', arguments) + '\n'; // get log line
+console.error = function () {
+    const logLine = getLog('error', arguments) + '\n';
+    process.stderr.write(logLine);
+};
 
-        if (LOGJ === 'console')
-            process.stdout.write(logLine);
-        else {
-            log.apply(this, arguments); // call original console function
-            stream.write(logLine, error => error && process.stderr.write(error)); // append into log file
-        }
-    };
+const errorToObject = error => JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error)));
 
-    console.logWith = custom => function () {
-        const logLine = getLogLine('output', arguments, custom) + '\n'; // get log line
+const arrayIntersection = (array1, array2) => array1.filter(value => array2.includes(value));
 
-        if (LOGJ === 'console')
-            process.stdout.write(logLine);
-        else {
-            log.apply(this, arguments); // call original console function
-            stream.write(logLine, error => error && process.stderr.write(error)); // append into log file
-        }
-    };
+const getLog = (std, args) => {
+    // errors do not have a default toString method thus we must serialize them
+    args = Array.from(args).map(arg => arg instanceof Error ? errorToObject(arg) : arg);
 
-    console.error = function () {
-        const logLine = getLogLine('error', arguments) + '\n'; // get log line
-
-        if (LOGJ === 'console')
-            process.stderr.write(logLine);
-        else {
-            error.apply(this, arguments); // call original console function
-            stream.write(logLine, error => error && process.stderr.write(error)); // append into log file
-        }
-    };
-
-    console.errorWith = custom => function () {
-        const logLine = getLogLine('error', arguments, custom) + '\n'; // get log line
-
-        if (LOGJ === 'console')
-            error.apply(this, arguments); // call original console function
-        else {
-            process.stderr.write(logLine);
-            stream.write(logLine, error => error && process.stderr.write(error)); // append into log file
-        }
-    };
-}
-
-const getLogLine = (std, args, custom = {}) => {
     const out = args.length === 1 ? args[0] : args;
 
-    const logLine = LOGJ_MORE ? {
+    const meta = {
         std,
-        time: new Date().toISOString(),
-        timestamp: new Date().getTime(),
-        name,
-        version,
-        ...custom,
-        out,
-    } : custom ? {
-        ...custom,
-        out,
-    } : out;
+        time: new Date().toISOString().slice(0, -5) + 'Z',
+        name: process.env.npm_package_name,
+        version: process.env.npm_package_version,
+    };
 
-    try {
-        const logLineJSON = JSON.stringify(logLine, console.jsonReplacer, LOGJ_PRETTY);
-        return logLineJSON;
-    }
-    catch (error) {
-        Object.assign(logLine, { error: error.message });
-        const logLineJSON = JSON.stringify(logLine, console.jsonReplacer, LOGJ_PRETTY);
-        return logLineJSON;
-    }
+    const metaOverlap = arrayIntersection(Object.keys(meta), Object.keys(out)).length > 0;
+    const log = META && !metaOverlap ? { ...meta, out } : out;
+
+    const result = JSON.stringify(log, console.logjReplacer, PRETTY ? 4 : null);
+    return result;
 };
 
