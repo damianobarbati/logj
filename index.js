@@ -8,10 +8,14 @@ console.log = function () {
     process.stdout.write(logLine);
 };
 
+console.info = console.log;
+
 console.error = function () {
     const logLine = getLog('error', arguments) + '\n';
     process.stderr.write(logLine);
 };
+
+console.warn = console.error;
 
 const errorToObject = error => JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error)));
 
