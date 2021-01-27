@@ -34,7 +34,7 @@ const getLog = (std, args) => {
         version: process.env.npm_package_version,
     };
 
-    const metaOverlap = arrayIntersection(Object.keys(meta), Object.keys(out)).length > 0;
+    const metaOverlap = !!out && arrayIntersection(Object.keys(meta), Object.keys(out)).length > 0;
     const log = META && !metaOverlap ? { ...meta, out } : out;
 
     const result = JSON.stringify(log, console.logjReplacer, PRETTY ? 4 : null);
